@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "YouTube Auto Pause/Resume",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Automatically pause YouTube videos when switching tabs or apps and resume when returning.",
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "scripting"],
   "host_permissions": ["https://www.youtube.com/*"],
   "background": {
     "service_worker": "background.js"
@@ -11,7 +11,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ]
 }

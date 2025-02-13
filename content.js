@@ -1,27 +1,23 @@
-document.addEventListener("visibilitychange", () => {
+console.log("✅ YouTube Auto Pause/Resume content script loaded!");
+
+function pauseVideo() {
   const video = document.querySelector("video");
-
-  if (!video) return;
-
-  if (document.hidden) {
-    // Pause the video when the tab becomes hidden
-    if (!video.paused) video.pause();
-  } else {
-    // Resume the video when the tab becomes visible
-    if (video.paused) video.play();
-  }
-});
-
-chrome.runtime.onMessage.addListener((message) => {
-  const video = document.querySelector("video");
-
-  if (!video) return;
-
-  if (message.action === "pause" && !video.paused) {
+  if (video && !video.paused) {
+    console.log("⏸️ Pausing video...");
     video.pause();
   }
+}
 
-  if (message.action === "resume" && video.paused) {
+function playVideo() {
+  const video = document.querySelector("video");
+  if (video && video.paused) {
+    console.log("▶️ Resuming video...");
     video.play();
   }
+}
+
+// Listen for messages from background.js
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === "pause") pauseVideo();
+  if (message.action === "resume") playVideo();
 });
